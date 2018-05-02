@@ -44,6 +44,13 @@ module.exports = function(app, db){
 	app.delete('/resumes/:id', (req, res) => {
 		const id = req.params.id;
 		const details = { '_id': new ObjectID(id) };
+		db.collect('resumes').remove(details, (err, item) => {
+			if(err){
+				res.send({"error":"An error occurred deleting the resume"});
+			}else{
+				res.send(item);
+			}
+		});
 		
 	});
 

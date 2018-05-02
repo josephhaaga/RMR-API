@@ -22,8 +22,10 @@ module.exports = function(app, db){
 
 	// Read resume
 	app.get('/resumes/:id', (req, res) => {
+		const id = req.params.id;
 		const details = { "_id": new ObjectID(id) };
 		db.collection('resumes').findOne(details, (err, item) => {
+			console.log("DB query fired");
 			if(err){
 				res.send({"error":"An unexpected error has occurred"});
 			}else{
@@ -34,7 +36,8 @@ module.exports = function(app, db){
 	
 	// Update resume
 	app.put('/resumes/:id', (req, res) => {
-	
+		const details = { "_id": new ObjectID(req.body.id) };
+		res.send(req.body);
 	});
 
 	// Delete resume

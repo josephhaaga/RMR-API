@@ -3,13 +3,20 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
+const db = require('./config/db');
 
 const app = express();
 
 const port = 8000;
 
-require('./app/routes')(app, {});
-app.listen(port, () => {
-	console.log("Listening on port "+port);
+app.use(bodyParser.urlencoded({ extended: true }));
 
-});
+
+MongoClient.connect(db.url, (err, database) => {
+	db1 = database.db("rmr");
+	require('./app/routes')(app, db1);
+	app.listen(port, () => {
+		console.log("Listening on port "+port);
+
+	});
+})
